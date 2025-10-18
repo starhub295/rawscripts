@@ -1,0 +1,22 @@
+local p=game.Players.LocalPlayer
+local c=p.Character or p.CharacterAdded:Wait()
+local gui=Instance.new("ScreenGui",p.PlayerGui)
+local invisBtn=Instance.new("TextButton",gui); invisBtn.Position=UDim2.new(0,10,0,10); invisBtn.Size=UDim2.new(0,150,0,50); invisBtn.Text="Invis"
+local speedLabel=Instance.new("TextLabel",gui); speedLabel.Position=UDim2.new(0,10,0,70); speedLabel.Size=UDim2.new(0,150,0,20); speedLabel.Text="Velocidade: 16"
+local speedSlider=Instance.new("Slider",gui); speedSlider.Position=UDim2.new(0,10,0,90); speedSlider.Size=UDim2.new(0,150,0,20); speedSlider.Min=1; speedSlider.Max=5; speedSlider.Value=1
+
+local invis=false
+local function setSpeed(v) if c:FindFirstChild("Humanoid") then c.Humanoid.WalkSpeed=16*v end end
+local function toggleInvis()
+    invis=not invis
+    if c:FindFirstChild("HumanoidRootPart") then
+        c.HumanoidRootPart.Transparency=invis and 1 or 0
+    end
+end
+
+invisBtn.MouseButton1Click:Connect(toggleInvis)
+speedSlider.Changed:Connect(function()
+    local v=speedSlider.Value
+    setSpeed(v)
+    speedLabel.Text="Velocidade: "..math.floor(16*v)
+end)
